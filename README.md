@@ -1,7 +1,7 @@
 # FarmSale API
 
 ## Setup
-Use mongo uri format without the `srv` syntax due to a known issue with [mongo-driver](https://github.com/golang/go/issues/37362) and `srv` formatting with go versions >1.10
+Use mongo uri format without the `srv` syntax due to a known issue with [mongo-driver](https://github.com/golang/go/issues/37362) and `srv` formatting with `go versions >1.10`
 
 ## Routes
 
