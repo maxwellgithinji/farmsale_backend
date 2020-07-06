@@ -3,12 +3,12 @@ package productscontroller
 import (
 	"context"
 	"encoding/json"
-	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
-	"github.com/maxwellgithinji/farmsale_backend/models/productsmodel"
 	"fmt"
 	"net/http"
 
 	"github.com/globalsign/mgo/bson"
+	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
+	"github.com/maxwellgithinji/farmsale_backend/models/productsmodel"
 )
 
 type ErrorResponse struct {
@@ -19,6 +19,14 @@ type error interface {
 	Error() string
 }
 
+// GetProducts godoc
+// @Summary Get details of all products
+// @Description Get details of all products
+// @Tags products
+// @Produce  json
+// @Success 200 {object} []productsmodel.Product{}
+// @Router /auth/products [get]
+// @Security ApiKeyAuth
 func Index(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "GET" {
 		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)
@@ -37,7 +45,7 @@ func Index(w http.ResponseWriter, req *http.Request) {
 		err := ErrorResponse{
 			Err: "Error finding products",
 		}
-
+		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(err)
 		return
 	}
@@ -47,7 +55,7 @@ func Index(w http.ResponseWriter, req *http.Request) {
 		err := ErrorResponse{
 			Err: "Error finding all products",
 		}
-
+		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(err)
 		return
 	}

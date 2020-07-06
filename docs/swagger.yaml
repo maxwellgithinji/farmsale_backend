@@ -1,0 +1,57 @@
+basePath: /api/v1
+definitions:
+  productsmodel.Product:
+    properties:
+      currentstock:
+        description: '`json:"currentstock" bson:"currentstock"`'
+        type: number
+      id:
+        type: string
+      item:
+        description: '`json:"item" bson:"item"`'
+        type: string
+      standard:
+        description: '`json:"standard" bson:"standard"`'
+        type: string
+      unitprice:
+        description: '`json:"unitprice" bson:"unitprice"`'
+        type: number
+    type: object
+info:
+  contact:
+    email: email@email.com
+    name: API Support
+  description: This is a service for connecting farmers to customers
+  license:
+    name: MIT
+    url: https://github.com/maxwellgithinji/farmsale_backend/blob/develop/LICENSE
+  termsOfService: http://swagger.io/terms/
+  title: Farmsale API
+  version: "1.0"
+paths:
+  /auth/products:
+    get:
+      description: Get details of all products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/productsmodel.Product'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get details of all products
+      tags:
+      - products
+schemes:
+- http
+- https
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

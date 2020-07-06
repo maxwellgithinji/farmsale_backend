@@ -18,6 +18,8 @@ func apiV1(api *mux.Router) {
 	//Auth Route
 	s := api1.PathPrefix("/auth").Subrouter()
 	s.Use(auth.JwtVerify)
+
+	//Read-all
 	s.HandleFunc("/products", productscontroller.Index).Methods("GET")
 	s.HandleFunc("/profile/{id}", userscontroller.EditProfile).Methods("PUT")
 

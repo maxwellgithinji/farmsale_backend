@@ -26,7 +26,6 @@ func init() {
 }
 
 func connectDB() *mongo.Database {
-
 	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("DB_CONN_STR")))
 	if err != nil {
 		panic(err)
