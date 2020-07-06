@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	_ "net/http/pprof" // For dev only, dont push to production
-	// "os"
+	"os"
 
 	// _ "github.com/maxwellgithinji/farmsale_backend/docs"
 	_ "github.com/maxwellgithinji/farmsale_backend/docs"
@@ -30,7 +30,7 @@ import (
 // @schemes http https
 
 func main() {
-	// port := os.Getenv("PORT")
+	port := os.Getenv("PORT")
 	http.Handle("/", routes.RouteHandlers())
-	log.Fatal(http.ListenAndServe(":"+"8080", nil))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
