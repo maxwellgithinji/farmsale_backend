@@ -53,4 +53,4 @@ Use mongo uri format without the `srv` syntax due to a known issue with [mongo-d
 
 ## WORKING DEMO
 
-https://farmsaledev.herokuapp.com/api/v1/
+https://farmsaledev.herokuapp.com/swagger/index.html
