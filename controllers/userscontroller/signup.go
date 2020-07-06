@@ -3,13 +3,13 @@ package userscontroller
 import (
 	"context"
 	"encoding/json"
-	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
-	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
 	"fmt"
 	"log"
 	"net/http"
 	"regexp"
 
+	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
+	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
@@ -126,7 +126,7 @@ func Signup(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, http.StatusText(406), http.StatusNotAcceptable)
 		return
 	}
-	log.Println(cur)
+	log.Fatal(cur)
 
 	//Generate token on signup
 	generateToken(w, user)

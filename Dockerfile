@@ -1,7 +1,7 @@
 # Hello world example with go
 # We specify the base image we need for our
 # go application
-FROM golang:1.10
+FROM golang:1.14.4
 
 # We create an /app directory within our
 # image that will hold our application source
