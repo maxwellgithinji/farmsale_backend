@@ -10,6 +10,7 @@ import (
 
 func apiV1(api *mux.Router) {
 	var api1 = api.PathPrefix("/v1").Subrouter()
+	api1.HandleFunc("/products", productscontroller.Index).Methods("GET")
 
 	api1.HandleFunc("/", index).Methods("GET")
 	api1.HandleFunc("/signup", userscontroller.Signup).Methods("POST")

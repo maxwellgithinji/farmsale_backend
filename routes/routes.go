@@ -1,17 +1,16 @@
 package routes
 
 import (
-	"github.com/maxwellgithinji/farmsale_backend/middleware/common"
 	"net/http"
 	_ "net/http/pprof" // For dev only, dont push to production
 
 	"github.com/gorilla/mux"
+	"github.com/maxwellgithinji/farmsale_backend/middleware/common"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func RouteHandlers() *mux.Router {
 	r := mux.NewRouter().StrictSlash(true)
-	// r.Use(common.CommonMiddleware)
 	var api = r.PathPrefix("/api").Subrouter()
 
 	api.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -28,6 +27,6 @@ func RouteHandlers() *mux.Router {
 	// apiV2(api)
 
 	// Swagger
-	r.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
+	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 	return r
 }

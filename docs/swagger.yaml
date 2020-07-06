@@ -17,6 +17,68 @@ definitions:
         description: '`json:"unitprice" bson:"unitprice"`'
         type: number
     type: object
+  usersmodel.LoginUser:
+    properties:
+      email:
+        description: '`json:"email" bson:"email"`'
+        type: string
+      password:
+        description: '`json:"password" bson:"password"`'
+        type: string
+    type: object
+  usersmodel.SignupUser:
+    properties:
+      email:
+        description: '`json:"email" bson:"email"`'
+        type: string
+      idnumber:
+        description: '`json:"idnumber" bson:"idnumber"`'
+        type: integer
+      password:
+        description: '`json:"password" bson:"password"`'
+        type: string
+      phonenumber:
+        description: '`json:"phonenumber" bson:"phonenumber"`'
+        type: string
+      username:
+        description: '`json:"username" bson:"username"`'
+        type: string
+    type: object
+  usersmodel.User:
+    properties:
+      email:
+        description: '`json:"email" bson:"email"`'
+        type: string
+      id:
+        type: string
+      idnumber:
+        description: '`json:"idnumber" bson:"idnumber"`'
+        type: integer
+      isactive:
+        description: '`json:"isactive" bson:"isactive"`'
+        type: boolean
+      isadmin:
+        description: '`json:"isadmin" bson:"isadmin"`'
+        type: boolean
+      isblacklisted:
+        description: '`json:"isblacklisted" bson:"isblacklisted"`'
+        type: boolean
+      isvalid:
+        description: '`json:"isvalid" bson:"isvalid"`'
+        type: boolean
+      password:
+        description: '`json:"password" bson:"password"`'
+        type: string
+      phonenumber:
+        description: '`json:"phonenumber" bson:"phonenumber"`'
+        type: string
+      userclass:
+        description: '`json:"userclass" bson:"userclass"`'
+        type: string
+      username:
+        description: '`json:"username" bson:"username"`'
+        type: string
+    type: object
 info:
   contact:
     email: email@email.com
@@ -46,9 +108,54 @@ paths:
       summary: Get details of all products
       tags:
       - products
-schemes:
-- http
-- https
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: LOgin an existing user with their credentials
+      parameters:
+      - description: login user
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/usersmodel.LoginUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/usersmodel.User'
+            type: array
+      summary: Logs in an existing User
+      tags:
+      - login
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: Signs Up a user with new credentials
+      parameters:
+      - description: signup user
+        in: body
+        name: signup
+        required: true
+        schema:
+          $ref: '#/definitions/usersmodel.SignupUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/usersmodel.User'
+            type: array
+      summary: Signs up a new user
+      tags:
+      - signup
 securityDefinitions:
   ApiKeyAuth:
     in: header

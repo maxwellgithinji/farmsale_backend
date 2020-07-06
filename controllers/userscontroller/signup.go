@@ -3,13 +3,13 @@ package userscontroller
 import (
 	"context"
 	"encoding/json"
+	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
+	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
 	"fmt"
 	"log"
 	"net/http"
 	"regexp"
 
-	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
-	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
@@ -22,8 +22,15 @@ type ErrorResponse struct {
 type error interface {
 	Error() string
 }
-
-//Signup is where the users register to the app
+// Signup godoc
+// @Summary Signs up a new user
+// @Description Signs Up a user with new credentials
+// @Tags signup
+// @Accept  json
+// @Produce  json
+// @Param signup body usersmodel.SignupUser true "signup user"
+// @Success 201 {object} []usersmodel.User
+// @Router /signup [post]
 func Signup(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "POST" {
 		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)

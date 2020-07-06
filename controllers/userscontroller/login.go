@@ -13,7 +13,15 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-//Login is the entry point of the application after registration
+// Login godoc
+// @Summary Logs in an existing User
+// @Description LOgin an existing user with their credentials
+// @Tags login
+// @Accept  json
+// @Produce  json
+// @Param login body usersmodel.LoginUser true "login user"
+// @Success 200 {object} []usersmodel.User
+// @Router /login [post]
 func Login(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "POST" {
 		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)

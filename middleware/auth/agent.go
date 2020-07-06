@@ -14,6 +14,11 @@ func AgentVerify(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		tokenString := verifyTokenHelper(w, r)
+		if len(tokenString) == 0 {
+			w.WriteHeader(http.StatusForbidden)
+			json.NewEncoder(w).Encode(Exception{Message: "User not authorized"})
+			return
+		}
 
 		token, err := jwt.ParseWithClaims(tokenString, &jwtmodel.Token{}, func(token *jwt.Token) (interface{}, error) {
 			return decodebs, nil

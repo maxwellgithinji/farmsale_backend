@@ -24,6 +24,21 @@ type User struct {
 	Isactive      bool               // `json:"isactive" bson:"isactive"`
 }
 
+//LoginUser is a struct for swagger documentation
+type LoginUser struct {
+	Email         string             // `json:"email" bson:"email"`
+	Password      string             // `json:"password" bson:"password"`
+}
+
+//SignupUser is a struct for swagger documentation
+type SignupUser struct {
+	Username      string             // `json:"username" bson:"username"`
+	Email         string             // `json:"email" bson:"email"`
+	Password      string             // `json:"password" bson:"password"`
+	Phonenumber   string             // `json:"phonenumber" bson:"phonenumber"`
+	Idnumber      int                // `json:"idnumber" bson:"idnumber"`
+}
+
 func SetEmailIndex(coll *mongo.Collection) {
 	ctx := context.Background()
 	indexOptions := options.Index().SetUnique(true)

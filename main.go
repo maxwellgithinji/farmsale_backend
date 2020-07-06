@@ -1,14 +1,12 @@
 package main
 
 import (
+	_ "github.com/maxwellgithinji/farmsale_backend/docs"
+	"github.com/maxwellgithinji/farmsale_backend/routes"
 	"log"
 	"net/http"
 	_ "net/http/pprof" // For dev only, dont push to production
 	"os"
-
-	// _ "github.com/maxwellgithinji/farmsale_backend/docs"
-	_ "github.com/maxwellgithinji/farmsale_backend/docs"
-	"github.com/maxwellgithinji/farmsale_backend/routes"
 )
 
 // @title Farmsale API
@@ -27,8 +25,6 @@ import (
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
-// @schemes http https
-
 func main() {
 	port := os.Getenv("PORT")
 	http.Handle("/", routes.RouteHandlers())
