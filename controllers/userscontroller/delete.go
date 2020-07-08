@@ -15,7 +15,16 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-//DeleteUser is an admin only functionality and this completely removes user accounts
+// DeleteUser godoc
+// @Summary DeleteUser is for admin purposes in case an account was wrongfuly created
+// @Description this completely removes user account data
+// @Tags admin
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Account ID"
+// @Success 200 {object} usersmodel.SuccessMessage
+// @Router /admin/profile/delete/{id} [put]
+// @Security ApiKeyAuth
 func DeleteUser(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "DELETE" {
 		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)

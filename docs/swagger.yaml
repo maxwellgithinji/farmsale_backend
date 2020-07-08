@@ -44,6 +44,12 @@ definitions:
         description: '`json:"username" bson:"username"`'
         type: string
     type: object
+  usersmodel.SuccessMessage:
+    properties:
+      message:
+        description: '`json:"message" bson:"message"'
+        type: string
+    type: object
   usersmodel.User:
     properties:
       email:
@@ -91,6 +97,52 @@ info:
   title: Farmsale API
   version: "1.0"
 paths:
+  /admin/profile/activate/{id}:
+    put:
+      consumes:
+      - application/json
+      description: ActivateDeactivateAccount is a safer option than deleting accounts which have interracted with the application
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usersmodel.SuccessMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Admin activates or deactivates the account
+      tags:
+      - admin
+  /admin/profile/delete/{id}:
+    put:
+      consumes:
+      - application/json
+      description: this completely removes user account data
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usersmodel.SuccessMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteUser is for admin purposes in case an account was wrongfuly created
+      tags:
+      - admin
   /auth/products:
     get:
       description: Get details of all products
@@ -107,12 +159,12 @@ paths:
       - ApiKeyAuth: []
       summary: Get details of all products
       tags:
-      - products
+      - auth User
   /login:
     post:
       consumes:
       - application/json
-      description: LOgin an existing user with their credentials
+      description: Login an existing user with their credentials
       parameters:
       - description: login user
         in: body
@@ -126,12 +178,57 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/usersmodel.User'
-            type: array
+            $ref: '#/definitions/usersmodel.User'
       summary: Logs in an existing User
       tags:
-      - login
+      - auth
+  /profile/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Editing is only accessible to the owners of the credentials
+      parameters:
+      - description: edit profile
+        in: body
+        name: profile
+        required: true
+        schema:
+          $ref: '#/definitions/usersmodel.SignupUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usersmodel.SuccessMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: A user is able to edit their account details
+      tags:
+      - user
+  /profile/deactivate/{id}:
+    put:
+      consumes:
+      - application/json
+      description: DeactivateAccount is a safer option than deleting accounts which have interracted with the application
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usersmodel.SuccessMessage'
+      security:
+      - ApiKeyAuth: []
+      summary: Owner of the account activates or deactivates the account
+      tags:
+      - user
   /signup:
     post:
       consumes:
@@ -150,12 +247,10 @@ paths:
         "201":
           description: Created
           schema:
-            items:
-              $ref: '#/definitions/usersmodel.User'
-            type: array
+            $ref: '#/definitions/usersmodel.User'
       summary: Signs up a new user
       tags:
-      - signup
+      - auth
 securityDefinitions:
   ApiKeyAuth:
     in: header

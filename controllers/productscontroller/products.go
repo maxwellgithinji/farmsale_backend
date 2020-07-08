@@ -22,7 +22,7 @@ type error interface {
 // GetProducts godoc
 // @Summary Get details of all products
 // @Description Get details of all products
-// @Tags products
+// @Tags auth User
 // @Produce  json
 // @Success 200 {object} []productsmodel.Product{}
 // @Router /auth/products [get]

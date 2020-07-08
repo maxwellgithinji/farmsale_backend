@@ -25,11 +25,11 @@ type error interface {
 // Signup godoc
 // @Summary Signs up a new user
 // @Description Signs Up a user with new credentials
-// @Tags signup
+// @Tags auth
 // @Accept  json
 // @Produce  json
 // @Param signup body usersmodel.SignupUser true "signup user"
-// @Success 201 {object} []usersmodel.User
+// @Success 201 {object} usersmodel.User
 // @Router /signup [post]
 func Signup(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "POST" {

@@ -15,8 +15,16 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-//ActivateDeactivateAccount is a safer option than deleting accounts which have interracted with the application
-//This can be done by admin or owner of the account
+// ActivateDeactivateAccount godoc
+// @Summary Admin activates or deactivates the account
+// @Description ActivateDeactivateAccount is a safer option than deleting accounts which have interracted with the application
+// @Tags admin
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Account ID"
+// @Success 200 {object} usersmodel.SuccessMessage
+// @Router /admin/profile/activate/{id} [put]
+// @Security ApiKeyAuth
 func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "PUT" {
 		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)
@@ -147,9 +155,17 @@ func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-//DeactivateAccount is a safer option than deleting accounts which have interracted with the application
-//This can be done by the owner of the account
 //TODO: Remember to log out user in the front end after deactivation
+// DeactivateAccount godoc
+// @Summary Owner of the account activates or deactivates the account
+// @Description DeactivateAccount is a safer option than deleting accounts which have interracted with the application
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Account ID"
+// @Success 200 {object} usersmodel.SuccessMessage
+// @Router /profile/deactivate/{id} [put]
+// @Security ApiKeyAuth
 func DeactivateAccount(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "PUT" {
 		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)

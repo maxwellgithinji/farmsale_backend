@@ -30,6 +30,7 @@ func apiV1(api *mux.Router) {
 	a.HandleFunc("/", admin).Methods("GET")
 	a.HandleFunc("/profile/delete/{id}", userscontroller.DeleteUser).Methods("DELETE")
 	a.HandleFunc("/profile/activate/{id}", userscontroller.ActivateDeactivateAccount).Methods("PUT")
+	a.HandleFunc("/profile/blacklist/{id}", userscontroller.BlacklistUser).Methods("PUT")
 
 	//Manager Route
 	m := api1.PathPrefix("/manager").Subrouter()

@@ -32,6 +32,80 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/admin/profile/activate/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "ActivateDeactivateAccount is a safer option than deleting accounts which have interracted with the application",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Admin activates or deactivates the account",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/usersmodel.SuccessMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/profile/delete/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "this completely removes user account data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin"
+                ],
+                "summary": "DeleteUser is for admin purposes in case an account was wrongfuly created",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/usersmodel.SuccessMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/products": {
             "get": {
                 "security": [
@@ -44,7 +118,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "auth User"
                 ],
                 "summary": "Get details of all products",
                 "responses": {
@@ -62,7 +136,7 @@ var doc = `{
         },
         "/login": {
             "post": {
-                "description": "LOgin an existing user with their credentials",
+                "description": "Login an existing user with their credentials",
                 "consumes": [
                     "application/json"
                 ],
@@ -70,7 +144,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "login"
+                    "auth"
                 ],
                 "summary": "Logs in an existing User",
                 "parameters": [
@@ -88,10 +162,83 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/usersmodel.User"
-                            }
+                            "$ref": "#/definitions/usersmodel.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/deactivate/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "DeactivateAccount is a safer option than deleting accounts which have interracted with the application",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Owner of the account activates or deactivates the account",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/usersmodel.SuccessMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Editing is only accessible to the owners of the credentials",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "A user is able to edit their account details",
+                "parameters": [
+                    {
+                        "description": "edit profile",
+                        "name": "profile",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/usersmodel.SignupUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/usersmodel.SuccessMessage"
                         }
                     }
                 }
@@ -107,7 +254,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "signup"
+                    "auth"
                 ],
                 "summary": "Signs up a new user",
                 "parameters": [
@@ -125,10 +272,7 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/usersmodel.User"
-                            }
+                            "$ref": "#/definitions/usersmodel.User"
                         }
                     }
                 }
@@ -194,6 +338,15 @@ var doc = `{
                 },
                 "username": {
                     "description": "` + "`" + `json:\"username\" bson:\"username\"` + "`" + `",
+                    "type": "string"
+                }
+            }
+        },
+        "usersmodel.SuccessMessage": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "description": "` + "`" + `json:\"message\" bson:\"message\"",
                     "type": "string"
                 }
             }

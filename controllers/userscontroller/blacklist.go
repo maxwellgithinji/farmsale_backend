@@ -3,13 +3,13 @@ package userscontroller
 import (
 	"context"
 	"encoding/json"
-	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
-	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
-	"github.com/maxwellgithinji/farmsale_backend/utils"
 	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
+	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
+	"github.com/maxwellgithinji/farmsale_backend/utils"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

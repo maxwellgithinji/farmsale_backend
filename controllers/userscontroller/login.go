@@ -15,12 +15,12 @@ import (
 
 // Login godoc
 // @Summary Logs in an existing User
-// @Description LOgin an existing user with their credentials
-// @Tags login
+// @Description Login an existing user with their credentials
+// @Tags auth
 // @Accept  json
 // @Produce  json
 // @Param login body usersmodel.LoginUser true "login user"
-// @Success 200 {object} []usersmodel.User
+// @Success 200 {object} usersmodel.User
 // @Router /login [post]
 func Login(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "POST" {

@@ -17,7 +17,16 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-//EditProfile is only accessible to the owners of the credentials
+// EditProfile godoc
+// @Summary A user is able to edit their account details
+// @Description Editing is only accessible to the owners of the credentials
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param profile body usersmodel.SignupUser true "edit profile"
+// @Success 200 {object} usersmodel.SuccessMessage
+// @Router /profile/{id} [put]
+// @Security ApiKeyAuth
 func EditProfile(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "PUT" {
 		http.Error(w, http.StatusText(405), http.StatusMethodNotAllowed)
@@ -93,7 +102,6 @@ func EditProfile(w http.ResponseWriter, req *http.Request) {
 
 	user.Password = string(bs)
 
-	
 	update := bson.D{{"$set",
 		bson.D{
 			{"username", user.Username},

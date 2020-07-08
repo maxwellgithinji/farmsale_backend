@@ -39,6 +39,11 @@ type SignupUser struct {
 	Idnumber      int                // `json:"idnumber" bson:"idnumber"`
 }
 
+//Sucess message is a struct for swagger documentation
+type SuccessMessage struct {
+	Message      string             // `json:"message" bson:"message"
+}
+
 func SetEmailIndex(coll *mongo.Collection) {
 	ctx := context.Background()
 	indexOptions := options.Index().SetUnique(true)
