@@ -3,12 +3,12 @@ package userscontroller
 import (
 	"context"
 	"encoding/json"
-	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
-	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
 	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
+	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -96,14 +96,13 @@ func Login(w http.ResponseWriter, req *http.Request) {
 	//decode pssword
 	pass := users[0].Password
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(pass))
-	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword { //Password does not match!
+	if err := bcrypt.CompareHashAndPassword([]byte(pass), []byte(user.Password)); err != nil {
 		err := ErrorResponse{
-			Err: err.Error(),
+			Err: "Password is invalid",
 		}
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(err)
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 

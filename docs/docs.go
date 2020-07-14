@@ -70,7 +70,7 @@ var doc = `{
             }
         },
         "/admin/profile/delete/{id}": {
-            "put": {
+            "delete": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -224,6 +224,13 @@ var doc = `{
                 ],
                 "summary": "A user is able to edit their account details",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "edit profile",
                         "name": "profile",

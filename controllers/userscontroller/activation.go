@@ -3,14 +3,14 @@ package userscontroller
 import (
 	"context"
 	"encoding/json"
-	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
-	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
-	"github.com/maxwellgithinji/farmsale_backend/utils"
 	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
+	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
+	"github.com/maxwellgithinji/farmsale_backend/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -32,8 +32,6 @@ func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 	}
 	ctx := context.Background()
 
-	user := &usersmodel.User{}
-
 	var users []*usersmodel.User
 
 	params := mux.Vars(req)
@@ -47,17 +45,11 @@ func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)
 		log.Fatal(err)
+		return
 	}
 
-	//filter by the id
+	// filter by the id
 	filter := bson.D{{"_id", id}}
-
-	err = json.NewDecoder(req.Body).Decode(user)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(err)
-		log.Fatal(err)
-	}
 
 	// find the user
 	filterCursor, err := mdb.Users.Find(ctx, bson.M{"_id": id})
@@ -67,14 +59,14 @@ func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 		}
 		w.WriteHeader(http.StatusNotAcceptable)
 		json.NewEncoder(w).Encode(err)
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 
 	if err = filterCursor.All(ctx, &users); err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)
-		log.Fatal(err)
 		return
 	}
 
@@ -82,13 +74,14 @@ func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 		err := ErrorResponse{
 			Err: `User with id (` + strID + `) not found`,
 		}
+		log.Println(err)
 		w.WriteHeader(http.StatusForbidden)
 		json.NewEncoder(w).Encode(err)
 		return
 	}
 
 	var update bson.D
-	var msg utils.MessageResponse
+	var msg = map[string]interface{}{}
 
 	if users[0].Isactive {
 		update = bson.D{{"$set",
@@ -96,9 +89,7 @@ func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 				{"isactive", false},
 			}}}
 
-		msg = utils.MessageResponse{
-			Msg: "Account deactivation successful",
-		}
+		msg["Message"] = "Account deactivation successful"
 
 		updateUser, err := mdb.Users.UpdateOne(ctx, filter, update)
 		if err != nil {
@@ -113,13 +104,10 @@ func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 
 		if updateUser.MatchedCount != 0 {
 			fmt.Println("matched and replaced an existing document dd") //TODO: delete in prod
-			json.NewEncoder(w).Encode(msg)
-			return
 		}
 		if updateUser.UpsertedCount != 0 {
 			fmt.Printf("inserted a new document with ID dd %v\n", updateUser.UpsertedID) //TODO: delete in prod
 		}
-		json.NewEncoder(w).Encode(msg)
 
 	} else {
 
@@ -128,9 +116,7 @@ func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 				{"isactive", true},
 			}}}
 
-		msg = utils.MessageResponse{
-			Msg: "Account activation successful",
-		}
+		msg["Message"] = "Account activation successful"
 
 		updateUser, err := mdb.Users.UpdateOne(ctx, filter, update)
 		if err != nil {
@@ -145,14 +131,12 @@ func ActivateDeactivateAccount(w http.ResponseWriter, req *http.Request) {
 
 		if updateUser.MatchedCount != 0 {
 			fmt.Println("matched and replaced an existing document") //TODO: delete in prod
-			json.NewEncoder(w).Encode(msg)
-			return
 		}
 		if updateUser.UpsertedCount != 0 {
 			fmt.Printf("inserted a new document with ID %v\n", updateUser.UpsertedID) //TODO: delete in prod
 		}
-		json.NewEncoder(w).Encode(msg)
 	}
+	json.NewEncoder(w).Encode(msg)
 }
 
 //TODO: Remember to log out user in the front end after deactivation
@@ -173,8 +157,6 @@ func DeactivateAccount(w http.ResponseWriter, req *http.Request) {
 	}
 	ctx := context.Background()
 
-	user := &usersmodel.User{}
-
 	var users []*usersmodel.User
 
 	params := mux.Vars(req)
@@ -187,18 +169,11 @@ func DeactivateAccount(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	//filter by the id
 	filter := bson.D{{"_id", id}}
-
-	err = json.NewDecoder(req.Body).Decode(user)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(err)
-		log.Fatal(err)
-	}
 
 	// find the user
 	filterCursor, err := mdb.Users.Find(ctx, bson.M{"_id": id})
@@ -208,14 +183,14 @@ func DeactivateAccount(w http.ResponseWriter, req *http.Request) {
 		}
 		w.WriteHeader(http.StatusNotAcceptable)
 		json.NewEncoder(w).Encode(err)
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 
 	if err = filterCursor.All(ctx, &users); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)
-		log.Fatal(err)
+		log.Println(err)
 		return
 	}
 

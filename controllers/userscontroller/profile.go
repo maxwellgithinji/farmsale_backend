@@ -4,13 +4,13 @@ package userscontroller
 import (
 	"context"
 	"encoding/json"
-	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
-	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
-	"github.com/maxwellgithinji/farmsale_backend/utils"
 	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
+	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
+	"github.com/maxwellgithinji/farmsale_backend/utils"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -23,6 +23,7 @@ import (
 // @Tags user
 // @Accept  json
 // @Produce  json
+// @Param id path string true "Account ID"
 // @Param profile body usersmodel.SignupUser true "edit profile"
 // @Success 200 {object} usersmodel.SuccessMessage
 // @Router /profile/{id} [put]

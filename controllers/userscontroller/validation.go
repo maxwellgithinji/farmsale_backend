@@ -3,14 +3,14 @@ package userscontroller
 import (
 	"context"
 	"encoding/json"
-	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
-	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
-	"github.com/maxwellgithinji/farmsale_backend/utils"
 	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/maxwellgithinji/farmsale_backend/config/mdb"
+	"github.com/maxwellgithinji/farmsale_backend/models/usersmodel"
+	"github.com/maxwellgithinji/farmsale_backend/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -77,7 +77,6 @@ func InvalidateAccount(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	
 	update := bson.D{{"$set",
 		bson.D{
 			{"isvalid", false},

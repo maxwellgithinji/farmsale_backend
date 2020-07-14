@@ -22,6 +22,7 @@ type ErrorResponse struct {
 type error interface {
 	Error() string
 }
+
 // Signup godoc
 // @Summary Signs up a new user
 // @Description Signs Up a user with new credentials
@@ -97,7 +98,7 @@ func Signup(w http.ResponseWriter, req *http.Request) {
 	}
 
 	//encrypt the password
-	bs, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.MinCost)
+	bs, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		err := ErrorResponse{
 			Err: "Password encryption failed",
@@ -133,7 +134,7 @@ func Signup(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, http.StatusText(406), http.StatusNotAcceptable)
 		return
 	}
-	log.Fatal(cur)
+	log.Println(cur, "inserted ID")
 
 	//Generate token on signup
 	generateToken(w, user)

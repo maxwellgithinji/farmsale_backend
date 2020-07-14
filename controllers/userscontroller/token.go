@@ -12,7 +12,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-func generateToken(w http.ResponseWriter, user *usersmodel.User) {
+func generateToken(w http.ResponseWriter, user *usersmodel.User){
 	now := time.Now()
 
 	tk := &jwtmodel.Token{

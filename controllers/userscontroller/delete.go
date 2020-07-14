@@ -23,7 +23,7 @@ import (
 // @Produce  json
 // @Param id path string true "Account ID"
 // @Success 200 {object} usersmodel.SuccessMessage
-// @Router /admin/profile/delete/{id} [put]
+// @Router /admin/profile/delete/{id} [delete]
 // @Security ApiKeyAuth
 func DeleteUser(w http.ResponseWriter, req *http.Request) {
 	if req.Method != "DELETE" {
@@ -31,8 +31,6 @@ func DeleteUser(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	ctx := context.Background()
-
-	user := &usersmodel.User{}
 
 	var users []*usersmodel.User
 
@@ -51,13 +49,6 @@ func DeleteUser(w http.ResponseWriter, req *http.Request) {
 
 	//filter by the id
 	filter := bson.D{{"_id", id}}
-
-	err = json.NewDecoder(req.Body).Decode(user)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(err)
-		log.Fatal(err)
-	}
 
 	// find the user
 	filterCursor, err := mdb.Users.Find(ctx, bson.M{"_id": id})
